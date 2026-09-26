@@ -1,7 +1,7 @@
-# http-client (TypeScript) — Design
+# http (TypeScript) — Design
 
 A plain HTTP/HTTPS client for use as the HTTP **protocol service** by a
-future `1m5-core-ts`, the same role `http-client-java`'s `ra.http.HTTPService`
+future `1m5-core-ts`, the same role `http-java`'s `ra.http.HTTPService`
 plays for `1m5-core-java` — but client (outbound `sendOut`) only.
 
 ## Where it sits
@@ -10,7 +10,7 @@ plays for `1m5-core-java` — but client (outbound `sendOut`) only.
 
 ## Client only
 
-`HTTPService` in `http-client-java` is two things bolted together: an
+`HTTPService` in `http-java` is two things bolted together: an
 outbound HTTP/HTTPS client (`sendOut`, `connect`/`disconnect`), and a
 Jetty-based local HTTP server used to host `1m5`'s own API / SPA / WebSocket
 endpoints (`launch`, `EnvelopeHandler`, `SPAHandler`, `EnvelopeWebSocket`).
@@ -33,7 +33,7 @@ retrofit of this class.
 Unlike `tor-client-ts` (whose `TorClient` predates `ra_common.Envelope`
 growing a typed `url`/`action`/`content()` surface, and so uses the raw
 `headers["url"]`/`headers["body"]`/`headers["error"]` convention), this
-client uses that typed surface directly, mirroring `http-client-java`:
+client uses that typed surface directly, mirroring `http-java`:
 
 - **URL**: `envelope.url`, or (no URL set) a `SimpleExternalRoute`
   destination `NetworkPeer`'s `id`, treated as `http://<id>`.
@@ -75,7 +75,7 @@ always ends `"connected"`); `stop()` closes it and returns to
 
 Required standard for any HTTP client this project relies on for anonymized
 traffic (Tor/I2P), enforced here and checked against every sibling
-`http-client-*` port: no default header, response header, or connection
+`http-*` port: no default header, response header, or connection
 behavior may reveal more about the requester than it has to.
 
 - **Fixed 2026-09-26**: `send()` used to only set `User-Agent` when the
@@ -92,10 +92,10 @@ behavior may reveal more about the requester than it has to.
   ```
   Now `DEFAULT_USER_AGENT` (a generic, widely-shared browser value) is set
   on the `Headers` object whenever the caller hasn't supplied one - same
-  fix already applied to `http-client-java` (OkHttp's own default,
-  confirmed via bytecode), `http-client-cpp`/`http-client-python` (both
+  fix already applied to `http-java` (OkHttp's own default,
+  confirmed via bytecode), `http-cpp`/`http-python` (both
   previously defaulted to the project-identifying literal
-  `"ra-http-client"`, arguably worse), `http-client-go`/`http-client-rust`,
+  `"ra-http"`, arguably worse), `http-go`/`http-rust`,
   and `1m5-remnant`'s Android `TorClient`. Verified with a real test
   (`default User-Agent is generic, not undici's own 'node' default`) that
   captures the actual header a local server receives, not just that the
@@ -106,26 +106,26 @@ behavior may reveal more about the requester than it has to.
   SOCKS5-only relay like `tor-client-java`'s `TorSocksRelay` at all - a
   functional gap, not just a leak - and if it does support SOCKS5, confirm
   it resolves the destination hostname via the proxy, not local DNS, the
-  same requirement `http-client-cpp`'s `ConnectThroughSocks5` was directly
+  same requirement `http-cpp`'s `ConnectThroughSocks5` was directly
   confirmed to meet. A local resolution would leak the destination outside
   the proxy entirely, the same bug found and fixed in
   `bitcoin-client-java`'s bitcoinj DNS-seed lookups (`tor-client-java`,
   2026-09-25).
 - **No server/inbound half** (see "Client only" above), so the third known
   leak shape - a server-identifying response header, found and fixed in
-  `http-client-java`'s Jetty listener (`Server: Jetty(<version>)`) - doesn't
+  `http-java`'s Jetty listener (`Server: Jetty(<version>)`) - doesn't
   apply yet. Check for it if local server hosting is ever built.
 
 ## Not here
 
-- Local HTTP server / SPA hosting / WebSocket — `http-client-java`'s Jetty
+- Local HTTP server / SPA hosting / WebSocket — `http-java`'s Jetty
   half (`EnvelopeHandler`, `SPAHandler`, `EnvelopeWebSocket`,
   `EnvelopeJSONDataHandler`, `EnvelopeProxyDataHandler`). No other port has
   this either.
 - A `NetworkConnectionReport`-equivalent type — `ra-common-ts` doesn't have
   one; blocked responses are logged and recorded as an envelope error
   message only.
-- Redirect following configuration parity with `http-client-java`'s three
+- Redirect following configuration parity with `http-java`'s three
   separate `OkHttpClient`s (plain HTTP / compatible HTTPS / strong HTTPS) —
   `undici`'s single client handles HTTP and HTTPS uniformly; there's no
   equivalent three-way TLS strictness split.

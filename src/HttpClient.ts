@@ -1,5 +1,5 @@
 /**
- * `HttpClient` - a plain HTTP/HTTPS client. Ports `http-client-java`'s
+ * `HttpClient` - a plain HTTP/HTTPS client. Ports `http-java`'s
  * `ra.http.HTTPService`, outbound (`sendOut`) side only - no Jetty-equivalent
  * local server/SPA/WebSocket hosting (see `DESIGN.md`).
  */
@@ -29,7 +29,7 @@ export const DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:
 export type Status = "disconnected" | "connecting" | "connected" | "error";
 
 /** HTTP response codes treated as a sign the request was blocked rather than
- * merely unsuccessful - mirrors `HTTPService.handleFailure` in `http-client-java`. */
+ * merely unsuccessful - mirrors `HTTPService.handleFailure` in `http-java`. */
 export const BLOCKED_REASONS: Readonly<Record<number, string>> = {
   403: "BLOCKED-FORBIDDEN",
   408: "BLOCKED-TIMEOUT",
@@ -47,7 +47,7 @@ export type HttpClientConfig = Partial<
  * A direct (non-anonymized) HTTP/HTTPS client driven by `Envelope`: the URL,
  * method and headers come from the envelope, the response body is written
  * back onto it. For use as the HTTP **protocol service** by a future
- * `1m5-core-ts`, the same role `http-client-java` plays for `1m5-core-java`.
+ * `1m5-core-ts`, the same role `http-java` plays for `1m5-core-java`.
  */
 export class HttpClient {
   requestTimeoutMs: number;

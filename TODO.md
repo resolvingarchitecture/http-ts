@@ -13,7 +13,7 @@
       hostname via the proxy, not local DNS - see DESIGN.md "Identity
       metadata leaks".
 - [ ] Local HTTP server / SPA / WebSocket hosting (the Jetty half of
-      `http-client-java`), if a TypeScript consumer ever needs to host
+      `http-java`), if a TypeScript consumer ever needs to host
       inbound endpoints (e.g. a future onion service).
 - [ ] `NetworkConnectionReport`-equivalent type in `ra-common-ts`, if
       `1m5-core-ts`'s router ends up wanting structured blocked-response

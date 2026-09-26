@@ -1,5 +1,5 @@
 {
-  "name": "@resolvingarchitecture/http-client",
+  "name": "@resolvingarchitecture/http",
   "version": "0.1.0",
   "description": "A plain HTTP/HTTPS client for the RA / 1M5 ecosystem (Envelope in, Envelope out)",
   "type": "module",
@@ -35,7 +35,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/resolvingarchitecture/http-client-ts.git"
+    "url": "git+https://github.com/resolvingarchitecture/http-ts.git"
   },
   "homepage": "https://resolvingarchitecture.io",
   "engines": {

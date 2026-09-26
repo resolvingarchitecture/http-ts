@@ -1,17 +1,17 @@
-# http-client (TypeScript)
+# http (TypeScript)
 
 A plain (non-anonymized) HTTP/HTTPS client for **1M5**: `Envelope` in,
 `Envelope` out — method, URL, and headers come from the envelope, the
 response body is written back onto it.
 
-A TypeScript port of [`http-client-java`](https://github.com/resolvingarchitecture/http-client-java)'s
+A TypeScript port of [`http-java`](https://github.com/resolvingarchitecture/http-java)'s
 `ra.http.HTTPService`, outbound (`sendOut`) side only — see `DESIGN.md`.
 
 ## Use
 
 ```ts
 import { Action, Envelope } from "@resolvingarchitecture/ra-common";
-import { HttpClient } from "@resolvingarchitecture/http-client";
+import { HttpClient } from "@resolvingarchitecture/http";
 
 const client = HttpClient.fromConfig({});
 const env = Envelope.document();
@@ -42,7 +42,7 @@ npm run typecheck
 ## Identity metadata leaks
 
 **Fixed 2026-09-26**, the same class of bug found and fixed in
-`http-client-java`/`-cpp`/`-python` and `1m5-remnant`'s Android `TorClient`:
+`http-java`/`-cpp`/`-python` and `1m5-remnant`'s Android `TorClient`:
 `send()` used to only set a `User-Agent` header when the caller's `Envelope`
 already had one; with none, `undici`'s own `fetch` implementation injected
 `User-Agent: node` - confirmed directly in
@@ -58,5 +58,5 @@ not just assumed from the `ProxyAgent`'s support for a `socks5://` URL.
 
 Client only — GET/POST/PUT/DELETE, HTTP and HTTPS (via `undici`), multipart
 form uploads, a proxy dispatcher. No local HTTP server / SPA / WebSocket
-hosting (the Jetty-based half of `http-client-java`) — see `DESIGN.md` and
+hosting (the Jetty-based half of `http-java`) — see `DESIGN.md` and
 `TODO.md`.
