@@ -15,7 +15,7 @@ import { HttpClient } from "@resolvingarchitecture/http";
 
 const client = HttpClient.fromConfig({});
 const env = Envelope.document();
-env.url = "https://resolvingarchitecture.io";
+env.url = "https://resolvingarchitecture.dev";
 env.action = Action.Get;
 if (await client.send(env)) {
   const body = Buffer.from(env.content() as Uint8Array).toString();
